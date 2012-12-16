@@ -1,5 +1,5 @@
 //
-//  CCSlidingGridMenuAppDelegate.cpp
+//  AppDelegate.mm
 //  CCSlidingGridMenu
 //
 //  Created by smilingpoplar on 12-12-16.
@@ -33,6 +33,15 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
+    
+    // scale factor
+    CCDirector::sharedDirector()->setContentScaleFactor(UIScreen.mainScreen.scale > 1.0 ? 2 : 1);
+    // landscape size
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CCEGLView::sharedOpenGLView()->setDesignResolutionSize(1024, 768, kResolutionNoBorder);
+    } else {
+        CCEGLView::sharedOpenGLView()->setDesignResolutionSize(480, 320, kResolutionNoBorder);
+    }
 
     // create a scene. it's an autorelease object
     CCScene *pScene = HelloWorld::scene();

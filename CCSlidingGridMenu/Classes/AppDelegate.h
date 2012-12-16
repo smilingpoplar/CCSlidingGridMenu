@@ -1,5 +1,5 @@
 //
-//  CCSlidingGridMenuAppDelegate.h
+//  AppDelegate.h
 //  CCSlidingGridMenu
 //
 //  Created by smilingpoplar on 12-12-16.

@@ -200,8 +200,10 @@
 		87A4CEAB167DFF1300DE5312 /* CCTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEAA167DFF1300DE5312 /* CCTableView.cpp */; };
 		87A4CEAE167DFF1300DE5312 /* CCTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEAD167DFF1300DE5312 /* CCTableViewCell.cpp */; };
 		87A4CEB2167DFF1300DE5312 /* HttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEB1167DFF1300DE5312 /* HttpClient.cpp */; };
-		87A4CEBB167DFF1300DE5312 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEBA167DFF1300DE5312 /* AppDelegate.cpp */; };
+		87A4CEBB167DFF1300DE5312 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEBA167DFF1300DE5312 /* AppDelegate.mm */; };
 		87A4CEBE167DFF1300DE5312 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEBD167DFF1300DE5312 /* HelloWorldScene.cpp */; };
+		87A4CED1167E04A100DE5312 /* CCSlidingGridMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CECE167E04A100DE5312 /* CCSlidingGridMenu.cpp */; };
+		87A4CED2167E04A100DE5312 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 87A4CED0167E04A100DE5312 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -631,9 +633,12 @@
 		87A4CEB5167DFF1300DE5312 /* HttpResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HttpResponse.h; path = libs/extensions/network/HttpResponse.h; sourceTree = "<group>"; };
 		87A4CEB7167DFF1300DE5312 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		87A4CEB9167DFF1300DE5312 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
-		87A4CEBA167DFF1300DE5312 /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
+		87A4CEBA167DFF1300DE5312 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Classes/AppDelegate.mm; sourceTree = "<group>"; };
 		87A4CEBC167DFF1300DE5312 /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		87A4CEBD167DFF1300DE5312 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
+		87A4CECE167E04A100DE5312 /* CCSlidingGridMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlidingGridMenu.cpp; sourceTree = "<group>"; };
+		87A4CECF167E04A100DE5312 /* CCSlidingGridMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlidingGridMenu.h; sourceTree = "<group>"; };
+		87A4CED0167E04A100DE5312 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -691,6 +696,9 @@
 		87A4CC2C167DFF0C00DE5312 /* CCSlidingGridMenu */ = {
 			isa = PBXGroup;
 			children = (
+				87A4CED0167E04A100DE5312 /* README.md */,
+				87A4CECF167E04A100DE5312 /* CCSlidingGridMenu.h */,
+				87A4CECE167E04A100DE5312 /* CCSlidingGridMenu.cpp */,
 				87A4CC2D167DFF0C00DE5312 /* Resources */,
 				87A4CC45167DFF0D00DE5312 /* ios */,
 				87A4CC4E167DFF0E00DE5312 /* libs */,
@@ -1516,7 +1524,7 @@
 			isa = PBXGroup;
 			children = (
 				87A4CEB9167DFF1300DE5312 /* AppDelegate.h */,
-				87A4CEBA167DFF1300DE5312 /* AppDelegate.cpp */,
+				87A4CEBA167DFF1300DE5312 /* AppDelegate.mm */,
 				87A4CEBC167DFF1300DE5312 /* HelloWorldScene.h */,
 				87A4CEBD167DFF1300DE5312 /* HelloWorldScene.cpp */,
 			);
@@ -1585,6 +1593,7 @@
 				87A4CC41167DFF0D00DE5312 /* Icon@2x.png in Resources */,
 				87A4CC43167DFF0D00DE5312 /* iTunesArtwork in Resources */,
 				87A4CCD5167DFF1000DE5312 /* ChangeLog in Resources */,
+				87A4CED2167E04A100DE5312 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1767,8 +1776,9 @@
 				87A4CEAB167DFF1300DE5312 /* CCTableView.cpp in Sources */,
 				87A4CEAE167DFF1300DE5312 /* CCTableViewCell.cpp in Sources */,
 				87A4CEB2167DFF1300DE5312 /* HttpClient.cpp in Sources */,
-				87A4CEBB167DFF1300DE5312 /* AppDelegate.cpp in Sources */,
+				87A4CEBB167DFF1300DE5312 /* AppDelegate.mm in Sources */,
 				87A4CEBE167DFF1300DE5312 /* HelloWorldScene.cpp in Sources */,
+				87A4CED1167E04A100DE5312 /* CCSlidingGridMenu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1900,6 +1910,7 @@
 				87A4CEC3167DFF1300DE5312 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
