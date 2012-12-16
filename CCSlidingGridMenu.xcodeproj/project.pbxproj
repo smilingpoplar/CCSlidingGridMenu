@@ -696,9 +696,9 @@
 		87A4CC2C167DFF0C00DE5312 /* CCSlidingGridMenu */ = {
 			isa = PBXGroup;
 			children = (
-				87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */,
-				87A4CEDF167E09B100DE5312 /* CCSlidingGridMenu.h */,
 				87A4CEE0167E09B100DE5312 /* README.md */,
+				87A4CEDF167E09B100DE5312 /* CCSlidingGridMenu.h */,
+				87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */,
 				87A4CC2D167DFF0C00DE5312 /* Resources */,
 				87A4CC45167DFF0D00DE5312 /* ios */,
 				87A4CC4E167DFF0E00DE5312 /* libs */,

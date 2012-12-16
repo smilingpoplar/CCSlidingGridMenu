@@ -15,6 +15,3 @@ port Brandon's [SlidingMenuGrid](http://brandonreynolds.com/blog/2011/01/09/coco
     
     CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 4, 5, ccp(100, 100), ccp(50, 50));
     addChild(gridMenu);
-
-
-
