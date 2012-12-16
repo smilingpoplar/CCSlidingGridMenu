@@ -80,7 +80,7 @@ void CCSlidingGridMenu::buildGridVertically(int cols, int rows) {
 		CCMenuItem* item = (CCMenuItem*)itemObject;
         // Calculate the position of our menu item.
 		item->setPosition(ccp(getPosition().x + col * _padding.x ,
-                              getPosition().y - row * _padding.y + _pageCount * winSize.height));
+                              getPosition().y - row * _padding.y - _pageCount * winSize.height));
         // Increment our positions for the next item(s).
 		col++;
 		if (col == cols) {
@@ -169,7 +169,7 @@ void CCSlidingGridMenu::ccTouchEnded(CCTouch* touch, CCEvent* event) {
         // Do we have multiple pages?
         if (_pageCount > 1 && (_minMoveDistance < abs(_moveDistance))) {
             // Are we going forward or backward?
-            bool isForward = _moveDistance < 0;
+            bool isForward = _isVerticalPaging ? _moveDistance > 0 : _moveDistance < 0;
             
             // Do we have a page available?
             if(isForward && (_currentPage < _pageCount - 1)) {
@@ -208,16 +208,12 @@ CCPoint CCSlidingGridMenu::getCurrentPagePosition(float offset) {
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCPoint position = getPosition();
 	return _isVerticalPaging ?
-    CCPointMake(_menuOrigin.x, _menuOrigin.y - _currentPage * winSize.height + offset) :
+    CCPointMake(_menuOrigin.x, _menuOrigin.y + _currentPage * winSize.height + offset) :
     CCPointMake(_menuOrigin.x - _currentPage * winSize.width + offset, _menuOrigin.y);
 }
 
 void CCSlidingGridMenu::moveToPage(int page, bool animated) {
-	if (page < 0) {
-		page = 0;
-    } else if (page >= _pageCount) {
-		page = _pageCount - 1;
-	}
+    page = clampf(page, 0, _pageCount - 1);
     if (_currentPage != page) {
         _currentPage = page;
         moveToCurrentPage(animated);
