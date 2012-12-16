@@ -2,9 +2,9 @@
 
 NS_CC_BEGIN
 
-CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &itemSize, bool vertical) {
+CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool vertical, float previewOffset) {
 	CCSlidingGridMenu *slidingMenu = new CCSlidingGridMenu();
-	if (slidingMenu && slidingMenu->init(items, cols, rows, position, itemSize, vertical)) {
+	if (slidingMenu && slidingMenu->init(items, cols, rows, itemSize, position, vertical, previewOffset)) {
 		slidingMenu->autorelease();
 		return slidingMenu;
 	}
@@ -12,7 +12,7 @@ CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows,
 	return NULL;
 }
 
-bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &itemSize, bool vertical) {
+bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool vertical, float previewOffset) {
 	if(!CCLayer::init()) return false;
 
 	setTouchEnabled(true);
@@ -28,17 +28,22 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCPoint &
     
 	_state = kCCMenuStateWaiting;
 	_selectedItem = NULL;
-    _itemSize = itemSize;
-	_pageCount = 0;
 	_currentPage = 0;
-	_isMoving = false;
-    _isSwipeOnlyOnMenu = false;
-	_menuOrigin = position;
-	_minMoveDistance = 10;
-	_isVerticalPaging = vertical;
+	_moving = false;
+    _swipeOnlyOnMenu = false;
     
-	buildGrid(cols, rows, _isVerticalPaging);
-	setPosition(_menuOrigin);
+    _itemSize = itemSize;
+	_menuOrigin = position;
+	_vertical = vertical;
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    _pageOffset = vertical ? winSize.height : winSize.width;
+    if (previewOffset < 0) {
+        previewOffset = _pageOffset - (vertical ? _itemSize.height * rows * 0.5 : _itemSize.width * cols * 0.5);
+    }
+    _pageOffset -=  previewOffset;
+    
+	setPosition(position);
+	buildGrid(cols, rows, vertical);
     
 	return true;
 }
@@ -49,17 +54,17 @@ void CCSlidingGridMenu::addChild(CCNode *child, int zOrder, int tag) {
 }
 
 void CCSlidingGridMenu::buildGrid(int cols, int rows, bool vertical) {
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-    CCPoint offset = ccp(-_itemSize.x * (cols-1) * 0.5, _itemSize.y * (rows-1) * 0.5);
-
+	_pageCount = 0;
+    
+    CCPoint offset = ccp(-_itemSize.width * (cols-1) * 0.5, _itemSize.height * (rows-1) * 0.5);
 	int col = 0, row = 0;
 	CCObject* itemObject;
 	CCARRAY_FOREACH(m_pChildren, itemObject) {
 		CCMenuItem* item = (CCMenuItem*)itemObject;
         // Calculate the position of our menu item.
         CCPoint position = vertical ?
-        ccp(offset.x + col * _itemSize.x , offset.y - row * _itemSize.y - _pageCount * winSize.height) :
-        ccp(offset.x + col * _itemSize.x + _pageCount * winSize.width, offset.y - row * _itemSize.y);
+        ccp(offset.x + col * _itemSize.width , offset.y - row * _itemSize.height - _pageCount * _pageOffset) :
+        ccp(offset.x + col * _itemSize.width + _pageCount * _pageOffset, offset.y - row * _itemSize.height);
         item->setPosition(position);
 
         // Increment our positions for the next item(s).
@@ -115,7 +120,7 @@ bool CCSlidingGridMenu::ccTouchBegan(CCTouch* touch, CCEvent* event) {
     }
 	
 	// Only track touch if we are either in our menu system or dont care if they are outside of the menu grid.
-	if (!_isSwipeOnlyOnMenu || (_isSwipeOnlyOnMenu && _selectedItem)) {
+	if (!_swipeOnlyOnMenu || (_swipeOnlyOnMenu && _selectedItem)) {
 		_state = kCCMenuStateTrackingTouch;
 		return true;
 	}
@@ -132,11 +137,11 @@ void CCSlidingGridMenu::ccTouchCancelled(CCTouch* touch, CCEvent* event) {
 }
 
 void CCSlidingGridMenu::ccTouchMoved(CCTouch* touch, CCEvent* event) {
-    _isMoving = true;
+    _moving = true;
 	// Calculate the current touch point during the move.
     _touchStop = touch->getLocation();
     // Distance between the origin of the touch and current touch point.
-	_moveDistance = (_isVerticalPaging) ? (_touchStop.y - _touchOrigin.y) : (_touchStop.x - _touchOrigin.x);
+	_moveDistance = (_vertical) ? (_touchStop.y - _touchOrigin.y) : (_touchStop.x - _touchOrigin.x);
     // Set our position.
 	setPosition(getCurrentPagePosition(_moveDistance));
 }
@@ -144,18 +149,18 @@ void CCSlidingGridMenu::ccTouchMoved(CCTouch* touch, CCEvent* event) {
 // Touch has ended. Process sliding of menu or press of menu item.
 void CCSlidingGridMenu::ccTouchEnded(CCTouch* touch, CCEvent* event) {
     // User has been sliding the menu.
-	if(_isMoving) {
-		_isMoving = false;
+	if(_moving) {
+		_moving = false;
         // Do we have multiple pages?
-        if (_pageCount > 1 && (_minMoveDistance < abs(_moveDistance))) {
+        if (_pageCount > 1 && abs(_moveDistance) > _pageOffset * 0.33) {
             // Are we going forward or backward?
-            bool isForward = _isVerticalPaging ? _moveDistance > 0 : _moveDistance < 0;
+            bool forward = _vertical ? _moveDistance > 0 : _moveDistance < 0;
             
             // Do we have a page available?
-            if(isForward && (_currentPage < _pageCount - 1)) {
+            if(forward && (_currentPage < _pageCount - 1)) {
                 // Increment currently active page.
                 _currentPage++;
-            } else if (!isForward && (_currentPage > 0)) {
+            } else if (!forward && (_currentPage > 0)) {
                 // Decrement currently active page.
                 _currentPage--;
             }
@@ -184,10 +189,9 @@ void CCSlidingGridMenu::moveToCurrentPage(bool animated) {
 }
 
 CCPoint CCSlidingGridMenu::getCurrentPagePosition(float offset) {
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	return _isVerticalPaging ?
-    ccp(_menuOrigin.x, _menuOrigin.y + _currentPage * winSize.height + offset) :
-    ccp(_menuOrigin.x - _currentPage * winSize.width + offset, _menuOrigin.y);
+	return _vertical ?
+    ccp(_menuOrigin.x, _menuOrigin.y + _currentPage * _pageOffset + offset) :
+    ccp(_menuOrigin.x - _currentPage * _pageOffset + offset, _menuOrigin.y);
 }
 
 void CCSlidingGridMenu::moveToPage(int page, bool animated) {
