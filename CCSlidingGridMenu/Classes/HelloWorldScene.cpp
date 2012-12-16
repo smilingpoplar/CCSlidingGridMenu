@@ -24,7 +24,7 @@ CCScene* HelloWorld::scene()
 bool HelloWorld::init()
 {
     CCArray *items = CCArray::create();
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 42; i++) {
         CCMenuItemSprite *item = CCMenuItemSprite::create(CCSprite::create("Icon-72.png"),
                                              CCSprite::create("Icon-72.png"),
                                              this,
@@ -32,7 +32,7 @@ bool HelloWorld::init()
         items->addObject(item);
     }
     
-    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, ccp(240, 160), ccp(60, 50), false);
+    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 4, 4, ccp(240, 160), ccp(60, 50), false);
     addChild(gridMenu);
     
     return true;

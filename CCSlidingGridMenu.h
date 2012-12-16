@@ -13,15 +13,14 @@ NS_CC_BEGIN
 
 class CCSlidingGridMenu : public CCLayer {
 public:
-    static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &padding, bool vertical = false);
+    static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &itemSize, bool vertical = false);
 	void setMinMoveDistance(float minMoveDistance) { _minMoveDistance = minMoveDistance; }
 	void moveToPage(int page = 0, bool animated = true);
 
 protected:
-    bool init(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &padding, bool vertical);
+    bool init(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &itemSize, bool vertical);
     void addChild(CCNode *child, int zOrder, int tag);
-	void buildHorizontalGrid(int cols, int rows);
-	void buildVerticalGrid(int cols, int rows);
+	void buildGrid(int cols, int rows, bool vertical);
 	void moveToCurrentPage(bool animated = true);
 
     virtual void registerWithTouchDispatcher();
@@ -36,7 +35,7 @@ protected:
 	tCCMenuState _state; // State of our menu grid. (Eg. waiting, tracking touch, cancelled, etc)
 	CCMenuItem *_selectedItem; // Menu item that was selected/active.
 
-	CCPoint _padding; // Padding between menu items.
+	CCPoint _itemSize; // size of the menu item.
 	CCPoint _menuOrigin; // Origin position of the entire menu grid.
 	CCPoint _touchOrigin; // Where the touch action began.
 	CCPoint _touchStop; // Where the touch action stopped.
