@@ -30,20 +30,26 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
 	_selectedItem = NULL;
 	_currentPage = 0;
 	_moving = false;
-    _swipeOnlyOnMenu = false;
     
     _itemSize = itemSize;
 	_menuOrigin = position;
 	_horizontal = horizontal;
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
     _pageOffset = horizontal ? winSize.width : winSize.height;
+    CCSize menuSize = CCSizeMake(_itemSize.width * cols, _itemSize.height * rows);
     if (previewOffset < 0) {
-        previewOffset = _pageOffset - (horizontal ? _itemSize.width * cols * 0.5 : _itemSize.height * rows * 0.5);
+        previewOffset = _pageOffset - (horizontal ? menuSize.width * 0.5 : menuSize.height * 0.5);
     }
     _pageOffset -=  previewOffset;
     
 	setPosition(position);
 	buildGrid(cols, rows, horizontal);
+    
+    _showPagesIndicator = true;
+    _pagesIndicatorSize = 6;
+    _pagesIndicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _pagesIndicatorSize * 2);
+    _pagesIndicatorColorNormal = ccc4(150, 150, 150, 255);
+    _pagesIndicatorColorSelected = ccc4(255, 255, 255, 255);
     
 	return true;
 }
@@ -119,21 +125,8 @@ bool CCSlidingGridMenu::ccTouchBegan(CCTouch* touch, CCEvent* event) {
         _selectedItem->selected();
     }
 	
-	// Only track touch if we are either in our menu system or dont care if they are outside of the menu grid.
-	if (!_swipeOnlyOnMenu || (_swipeOnlyOnMenu && _selectedItem)) {
-		_state = kCCMenuStateTrackingTouch;
-		return true;
-	}
-	
-	return false;
-}
-
-void CCSlidingGridMenu::ccTouchCancelled(CCTouch* touch, CCEvent* event) {
-	if(_selectedItem) {
-		_selectedItem->unselected();
-		_selectedItem = NULL;
-		_state = kCCMenuStateWaiting;
-	}
+    _state = kCCMenuStateTrackingTouch;
+    return true;
 }
 
 void CCSlidingGridMenu::ccTouchMoved(CCTouch* touch, CCEvent* event) {
@@ -179,6 +172,14 @@ void CCSlidingGridMenu::ccTouchEnded(CCTouch* touch, CCEvent* event) {
 	_state = kCCMenuStateWaiting;
 }
 
+void CCSlidingGridMenu::ccTouchCancelled(CCTouch* touch, CCEvent* event) {
+	if(_selectedItem) {
+		_selectedItem->unselected();
+		_selectedItem = NULL;
+		_state = kCCMenuStateWaiting;
+	}
+}
+
 void CCSlidingGridMenu::moveToCurrentPage(bool animated) {
     CCPoint currentPagePosition = getCurrentPagePosition();
     if (animated) {
@@ -195,10 +196,48 @@ CCPoint CCSlidingGridMenu::getCurrentPagePosition(float offset) {
 }
 
 void CCSlidingGridMenu::moveToPage(int page, bool animated) {
-    page = clampf(page, 0, _pageCount - 1);
-    if (_currentPage != page) {
+    CCAssert(0 <= page && page < _pageCount, "page out of bounds");
+    if (page != _currentPage) {
         _currentPage = page;
         moveToCurrentPage(animated);
+    }
+}
+
+void CCSlidingGridMenu::visit() {
+    CCLayer::visit();
+	
+	if (_showPagesIndicator) {		
+		// Prepare Points Array
+		float pY = _pagesIndicatorPosition.y;
+		float d = _pagesIndicatorSize * 2; // Distance between points.
+        CCPoint *points = new CCPoint[_pageCount];
+		for (int i = 0; i < _pageCount; ++i) {
+			float pX = _pagesIndicatorPosition.x + d * ( (float)i - 0.5f*(_pageCount-1) );
+			points[i] = ccp(pX, pY);
+		}
+		
+		// Set GL Values
+        ccGLEnable(CC_GL_BLEND);
+        ccPointSize(_pagesIndicatorSize);
+ 		
+ 		// Draw Gray Points
+        ccDrawColor4B(_pagesIndicatorColorNormal.r,
+                      _pagesIndicatorColorNormal.g,
+                      _pagesIndicatorColorNormal.b,
+                      _pagesIndicatorColorNormal.a);
+        ccDrawPoints(points, _pageCount);
+        
+        // Draw White Point for Selected Page
+        ccDrawColor4B(_pagesIndicatorColorSelected.r,
+                      _pagesIndicatorColorSelected.g,
+                      _pagesIndicatorColorSelected.b,
+                      _pagesIndicatorColorSelected.a);
+        ccDrawPoint(points[_currentPage]);
+        
+        // Restore GL Values
+        ccPointSize(1.0f);
+        
+        delete[] points;
     }
 }
 

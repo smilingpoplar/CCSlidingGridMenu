@@ -32,7 +32,7 @@ bool HelloWorld::init()
         items->addObject(item);
     }
     
-    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 4, 4, CCSizeMake(60, 50), ccp(240, 160), true, 100);
+    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 4, 4, CCSizeMake(60, 50), ccp(240, 160), true, 80);
     addChild(gridMenu);
     
     return true;
