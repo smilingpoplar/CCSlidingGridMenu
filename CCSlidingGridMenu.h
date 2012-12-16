@@ -9,7 +9,7 @@
 
 #include "cocos2d.h"
 
-USING_NS_CC;
+NS_CC_BEGIN
 
 class CCSlidingGridMenu : public CCLayer {
 public:
@@ -19,8 +19,9 @@ public:
 
 protected:
     bool init(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &padding, bool vertical);
-	void buildGridHorizontally(int cols, int rows);
-	void buildGridVertically(int cols, int rows);
+    void addChild(CCNode *child, int zOrder, int tag);
+	void buildHorizontalGrid(int cols, int rows);
+	void buildVerticalGrid(int cols, int rows);
 	void moveToCurrentPage(bool animated = true);
 
     virtual void registerWithTouchDispatcher();
@@ -35,7 +36,7 @@ protected:
 	tCCMenuState _state; // State of our menu grid. (Eg. waiting, tracking touch, cancelled, etc)
 	CCMenuItem *_selectedItem; // Menu item that was selected/active.
 
-	CCPoint _padding; // Padding in between menu items.
+	CCPoint _padding; // Padding between menu items.
 	CCPoint _menuOrigin; // Origin position of the entire menu grid.
 	CCPoint _touchOrigin; // Where the touch action began.
 	CCPoint _touchStop; // Where the touch action stopped.
@@ -50,4 +51,7 @@ protected:
 	float _moveDistance; // Distance between origin of touch and current frame.
 	float _minMoveDistance; // Amount for sliding the grid to a new page.
 };
+
+NS_CC_END
+
 #endif

@@ -23,10 +23,9 @@ CCScene* HelloWorld::scene()
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //////////////////////////////
     CCArray *items = CCArray::create();
-    for (int i = 0; i < 42; i++) {
-        auto item = CCMenuItemSprite::create(CCSprite::create("Icon-72.png"),
+    for (int i = 0; i < 4; i++) {
+        CCMenuItemSprite *item = CCMenuItemSprite::create(CCSprite::create("Icon-72.png"),
                                              CCSprite::create("Icon-72.png"),
                                              this,
                                              menu_selector(HelloWorld::itemCallback));

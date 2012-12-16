@@ -1,5 +1,7 @@
 #include "CCSlidingGridMenu.h"
 
+NS_CC_BEGIN
+
 CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &padding, bool vertical) {
 	CCSlidingGridMenu *slidingMenu = new CCSlidingGridMenu();
 	if (slidingMenu && slidingMenu->init(items, cols, rows, position, padding, vertical)) {
@@ -35,23 +37,27 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCPoint &
 	_minMoveDistance = 10;
 	_isVerticalPaging = vertical;
     
-	_isVerticalPaging ? buildGridVertically(cols, rows) : buildGridHorizontally(cols, rows);
+	_isVerticalPaging ? buildVerticalGrid(cols, rows) : buildHorizontalGrid(cols, rows);
 	setPosition(_menuOrigin);
     
 	return true;
 }
 
-void CCSlidingGridMenu::buildGridHorizontally(int cols, int rows) {
+void CCSlidingGridMenu::addChild(CCNode *child, int zOrder, int tag) {
+    CCAssert(dynamic_cast<CCMenuItem*>(child) != NULL, "Menu only supports MenuItem objects as children");
+    CCLayer::addChild(child, zOrder, tag);
+}
+
+void CCSlidingGridMenu::buildHorizontalGrid(int cols, int rows) {
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 
 	int col = 0, row = 0;
-    CCArray* items = getChildren();
 	CCObject* itemObject;
-    CCARRAY_FOREACH(items, itemObject) {
+    CCARRAY_FOREACH(m_pChildren, itemObject) {
 		CCMenuItem* item = (CCMenuItem*)itemObject;
         // Calculate the position of our menu item. 
-		item->setPosition(ccp(getPosition().x + col * _padding.x + _pageCount * winSize.width,
-                              getPosition().y - row * _padding.y));
+		item->setPosition(ccp(col * _padding.x + _pageCount * winSize.width,
+                              - row * _padding.y));
         // Increment our positions for the next item(s).
 		col++;
 		if (col == cols) {
@@ -66,20 +72,19 @@ void CCSlidingGridMenu::buildGridHorizontally(int cols, int rows) {
 		
 	}
     
-	if(items->count() > rows * cols * _pageCount) _pageCount++;
+	if(getChildrenCount() > rows * cols * _pageCount) _pageCount++;
 }
 
-void CCSlidingGridMenu::buildGridVertically(int cols, int rows) { 
+void CCSlidingGridMenu::buildVerticalGrid(int cols, int rows) { 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 
 	int col = 0, row = 0;
-	CCArray* items = getChildren();
 	CCObject* itemObject;
-	CCARRAY_FOREACH(items, itemObject) {
+	CCARRAY_FOREACH(m_pChildren, itemObject) {
 		CCMenuItem* item = (CCMenuItem*)itemObject;
         // Calculate the position of our menu item.
-		item->setPosition(ccp(getPosition().x + col * _padding.x ,
-                              getPosition().y - row * _padding.y - _pageCount * winSize.height));
+		item->setPosition(ccp(col * _padding.x ,
+                              - row * _padding.y - _pageCount * winSize.height));
         // Increment our positions for the next item(s).
 		col++;
 		if (col == cols) {
@@ -94,7 +99,7 @@ void CCSlidingGridMenu::buildGridVertically(int cols, int rows) {
 
 	}
     
-	if(items->count() > rows * cols * _pageCount) _pageCount++;
+	if(getChildrenCount() > rows * cols * _pageCount) _pageCount++;
 }
 
 CCMenuItem* CCSlidingGridMenu::getItemForTouch(CCTouch* touch) {
@@ -102,9 +107,8 @@ CCMenuItem* CCSlidingGridMenu::getItemForTouch(CCTouch* touch) {
     CCPoint touchLocation = touch->getLocation();
 
 	// Parse our menu items and see if our touch exists within one.
-	CCArray* items = getChildren();
 	CCObject* itemObject;
-	CCARRAY_FOREACH(items, itemObject) {
+	CCARRAY_FOREACH(m_pChildren, itemObject) {
 		CCMenuItem* item= (CCMenuItem *)itemObject;
 		CCPoint local = item->convertToNodeSpace(touchLocation);
 		CCRect r = item->rect();
@@ -204,7 +208,6 @@ void CCSlidingGridMenu::moveToCurrentPage(bool animated) {
 
 CCPoint CCSlidingGridMenu::getCurrentPagePosition(float offset) {
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	CCPoint position = getPosition();
 	return _isVerticalPaging ?
     CCPointMake(_menuOrigin.x, _menuOrigin.y + _currentPage * winSize.height + offset) :
     CCPointMake(_menuOrigin.x - _currentPage * winSize.width + offset, _menuOrigin.y);
@@ -217,3 +220,5 @@ void CCSlidingGridMenu::moveToPage(int page, bool animated) {
         moveToCurrentPage(animated);
     }
 }
+
+NS_CC_END
