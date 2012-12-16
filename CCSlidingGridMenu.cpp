@@ -12,10 +12,7 @@ CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows,
 
 bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCPoint &position, const CCPoint &padding, bool vertical) {
 	if(!CCLayer::init()) return false;
-    
-	_state = kCCMenuStateWaiting;
-	_selectedItem = NULL;
-    
+
 	setTouchEnabled(true);
     
     int tag = 0;
@@ -26,8 +23,10 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCPoint &
         addChild(item, 0, tag);
         tag++;
     }
-
-	_padding = padding;
+    
+	_state = kCCMenuStateWaiting;
+	_selectedItem = NULL;
+    _padding = padding;
 	_pageCount = 0;
 	_currentPage = 0;
 	_isMoving = false;
@@ -179,10 +178,9 @@ void CCSlidingGridMenu::ccTouchEnded(CCTouch* touch, CCEvent* event) {
                 // Decrement currently active page.
                 _currentPage--;
             }
-            
-            // Start sliding towards the current page.
-            moveToCurrentPage();
-        } 	
+        }
+        // Start sliding towards the current page.
+        moveToCurrentPage();
     } else {
         // User wasn't sliding menu and simply tapped the screen. Activate the menu item.
 		if(_selectedItem) {
