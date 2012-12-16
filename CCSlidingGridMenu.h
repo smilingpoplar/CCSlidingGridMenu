@@ -14,13 +14,13 @@ NS_CC_BEGIN
 class CCSlidingGridMenu : public CCLayer {
 public:
     // previewOffset < 0: pages will be next to each other
-    static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool vertical, float previewOffset = -1);
+    static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset = -1);
 	void moveToPage(int page = 0, bool animated = true);
 
 protected:
-    bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool vertical, float previewOffset);
+    bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset);
     void addChild(CCNode *child, int zOrder, int tag);
-	void buildGrid(int cols, int rows, bool vertical);
+	void buildGrid(int cols, int rows, bool horizontal);
 	void moveToCurrentPage(bool animated = true);
 
     virtual void registerWithTouchDispatcher();
@@ -42,7 +42,7 @@ protected:
 
 	int _pageCount; // Number of pages in this grid.
 	int _currentPage; // Current page of menu items being viewed.
-	bool _vertical; // Pages scroll vertically instead of horizontally.
+	bool _horizontal; // Scroll pages horizontally?
     float _pageOffset; // Offset between pages. 
 
 	bool _moving; // Is the grid currently moving?
