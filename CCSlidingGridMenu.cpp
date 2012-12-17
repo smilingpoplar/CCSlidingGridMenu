@@ -110,7 +110,7 @@ CCMenuItem* CCSlidingGridMenu::getItemForTouch(CCTouch* touch) {
 }
 
 void CCSlidingGridMenu::registerWithTouchDispatcher() {
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, INT_MIN+1, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 }
 
 bool CCSlidingGridMenu::ccTouchBegan(CCTouch* touch, CCEvent* event) {
