@@ -15,16 +15,13 @@ CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows,
 
 bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset) {
 	if(!CCLayer::init()) return false;
-
+    
 	setTouchEnabled(true);
     
-    int tag = 0;
     CCObject *itemObject;
-    CCMenuItemSprite *item;
     CCARRAY_FOREACH(items, itemObject) {
-        item = (CCMenuItemSprite*)itemObject;
-        addChild(item, 0, tag);
-        tag++;
+        CCMenuItem *item = (CCMenuItem*)itemObject;
+        addChild(item);
     }
     
 	_state = kCCMenuStateWaiting;
@@ -58,9 +55,9 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
 	return true;
 }
 
-void CCSlidingGridMenu::addChild(CCNode *child, int zOrder, int tag) {
+void CCSlidingGridMenu::addChild(CCNode *child) {
     CCAssert(dynamic_cast<CCMenuItem*>(child) != NULL, "Menu only supports MenuItem objects as children");
-    CCLayer::addChild(child, zOrder, tag);
+    CCLayer::addChild(child);
 }
 
 void CCSlidingGridMenu::buildGrid(int cols, int rows, bool horizontal) {
@@ -76,7 +73,7 @@ void CCSlidingGridMenu::buildGrid(int cols, int rows, bool horizontal) {
         ccp(offset.x + col * _itemSize.width + _pageCount * _pageOffset, offset.y - row * _itemSize.height) :
         ccp(offset.x + col * _itemSize.width, offset.y - row * _itemSize.height - _pageCount * _pageOffset) ;
         item->setPosition(position);
-
+        
         // Increment our positions for the next item(s).
 		col++;
 		if (col == cols) {
@@ -88,7 +85,7 @@ void CCSlidingGridMenu::buildGrid(int cols, int rows, bool horizontal) {
 				row = 0;
 			}
 		}
-
+        
 	}
     
 	if(getChildrenCount() > rows * cols * _pageCount) _pageCount++;
@@ -97,7 +94,7 @@ void CCSlidingGridMenu::buildGrid(int cols, int rows, bool horizontal) {
 CCMenuItem* CCSlidingGridMenu::getItemForTouch(CCTouch* touch) {
     // Get the location of touch.
     CCPoint touchLocation = touch->getLocation();
-
+    
 	// Parse our menu items and see if our touch exists within one.
 	CCObject* itemObject;
 	CCARRAY_FOREACH(m_pChildren, itemObject) {
@@ -108,7 +105,7 @@ CCMenuItem* CCSlidingGridMenu::getItemForTouch(CCTouch* touch) {
         // If the touch was within this item. Return the item.
 		if (r.containsPoint(local)) return item;
 	}
-	// Didn't touch an item. 
+	// Didn't touch an item.
 	return NULL;
 }
 
@@ -171,7 +168,7 @@ void CCSlidingGridMenu::ccTouchEnded(CCTouch* touch, CCEvent* event) {
             _selectedItem->activate();
 		}
 	}
-
+    
 	// Back to waiting state.
 	_state = kCCMenuStateWaiting;
 }

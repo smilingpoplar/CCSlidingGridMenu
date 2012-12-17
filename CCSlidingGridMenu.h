@@ -30,10 +30,10 @@ public:
     
 protected:
     bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset);
-    virtual void addChild(CCNode *child, int zOrder, int tag);
+    virtual void addChild(CCNode *child);
 	void buildGrid(int cols, int rows, bool horizontal);
 	void moveToCurrentPage(bool animated = true);
-
+    
     virtual void registerWithTouchDispatcher();
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
@@ -43,21 +43,21 @@ protected:
 	CCMenuItem* getItemForTouch(CCTouch* touch);
     
     virtual void visit();
-
+    
 protected:
 	tCCMenuState _state; // State of our menu grid. (Eg. waiting, tracking touch, cancelled, etc)
 	CCMenuItem *_selectedItem; // Menu item that was selected/active.
-
+    
 	CCSize _itemSize; // size of the menu item.
 	CCPoint _menuOrigin; // Origin position of the entire menu grid.
 	CCPoint _touchOrigin; // Where the touch action began.
 	CCPoint _touchStop; // Where the touch action stopped.
-
+    
 	int _pageCount; // Number of pages in this grid.
 	int _currentPage; // Current page of menu items being viewed.
 	bool _horizontal; // Scroll pages horizontally?
-    float _pageOffset; // Offset between pages. 
-
+    float _pageOffset; // Offset between pages.
+    
 	bool _moving; // Is the grid currently moving?
 	float _moveDistance; // Distance between origin of the touch and current frame.
 };
