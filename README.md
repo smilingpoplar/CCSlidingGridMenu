@@ -7,8 +7,8 @@ port Brandon's [SlidingMenuGrid](http://brandonreynolds.com/blog/2011/01/09/coco
 ### Usage
     CCArray *items = CCArray::create();
     for (int i = 0; i < 42; i++) {
-        CCMenuItemSprite *item = CCMenuItemSprite::create(CCSprite::create("Icon-72.png"), CCSprite::create("Icon-72.png"),
-                                             this, menu_selector(HelloWorld::itemCallback));
+        CCSprite *sprite = CCSprite::create("Icon-72.png");
+        CCMenuItemSprite *item = CCMenuItemSprite::create(sprite, sprite, this, menu_selector(HelloWorld::itemCallback));
         items->addObject(item);
     }
     
