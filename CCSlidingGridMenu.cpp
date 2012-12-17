@@ -35,13 +35,15 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
     _itemSize = itemSize;
 	_menuOrigin = position;
 	_horizontal = horizontal;
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-    _pageOffset = horizontal ? winSize.width : winSize.height;
-    CCSize menuSize = CCSizeMake(_itemSize.width * cols, _itemSize.height * rows);
+    
+    CCSize winSize(CCDirector::sharedDirector()->getWinSize());
+    float winLength = horizontal ? winSize.width : winSize.height;
+    CCSize menuSize(_itemSize.width * cols, _itemSize.height * rows);
     if (previewOffset < 0) {
-        previewOffset = _pageOffset - (horizontal ? menuSize.width * 0.5 : menuSize.height * 0.5);
+        float menuLength = horizontal ? menuSize.width : menuSize.height;
+        previewOffset = winLength - menuLength;
     }
-    _pageOffset -=  previewOffset;
+    _pageOffset = winLength - previewOffset;
     
 	setPosition(position);
 	buildGrid(cols, rows, horizontal);
