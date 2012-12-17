@@ -204,6 +204,7 @@
 		87A4CEBE167DFF1300DE5312 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEBD167DFF1300DE5312 /* HelloWorldScene.cpp */; };
 		87A4CEE1167E09B200DE5312 /* CCSlidingGridMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */; };
 		87A4CEE2167E09B200DE5312 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 87A4CEE0167E09B100DE5312 /* README.md */; };
+		87A4CEEB167E885E00DE5312 /* pages-indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A4CEEA167E885E00DE5312 /* pages-indicator.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -639,6 +640,7 @@
 		87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlidingGridMenu.cpp; sourceTree = SOURCE_ROOT; };
 		87A4CEDF167E09B100DE5312 /* CCSlidingGridMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlidingGridMenu.h; sourceTree = SOURCE_ROOT; };
 		87A4CEE0167E09B100DE5312 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
+		87A4CEEA167E885E00DE5312 /* pages-indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pages-indicator.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -711,6 +713,7 @@
 		87A4CC2D167DFF0C00DE5312 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87A4CEEA167E885E00DE5312 /* pages-indicator.png */,
 				87A4CC2E167DFF0C00DE5312 /* CloseNormal.png */,
 				87A4CC30167DFF0C00DE5312 /* CloseSelected.png */,
 				87A4CC32167DFF0C00DE5312 /* Default.png */,
@@ -1594,6 +1597,7 @@
 				87A4CC43167DFF0D00DE5312 /* iTunesArtwork in Resources */,
 				87A4CCD5167DFF1000DE5312 /* ChangeLog in Resources */,
 				87A4CEE2167E09B200DE5312 /* README.md in Resources */,
+				87A4CEEB167E885E00DE5312 /* pages-indicator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

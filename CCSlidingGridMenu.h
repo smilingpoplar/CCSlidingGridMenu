@@ -16,8 +16,7 @@ public:
     // previewOffset < 0: pages will be next to each other
     static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset = -1);
 	void moveToPage(int page, bool animated = true);
-    void setShowPagesIndicator(bool show) { _showPagesIndicator = show; }
-    void setPagesIndicatorPosition(const CCPoint &position) { _pagesIndicatorPosition = position; }
+    void setIndicatorSprite(CCSprite *sprite);
 
 protected:
     bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset);
@@ -53,11 +52,12 @@ protected:
 	float _moveDistance; // Distance between origin of the touch and current frame.
     
     // pages indicator
-    bool _showPagesIndicator;
-    float _pagesIndicatorSize;
-    CCPoint _pagesIndicatorPosition;
-    ccColor4B _pagesIndicatorColorNormal;
-    ccColor4B _pagesIndicatorColorSelected;
+    CC_SYNTHESIZE(bool, _showIndicator, ShowIndicator);
+    CC_SYNTHESIZE(float, _indicatorSize, IndicatorSize);
+    CC_SYNTHESIZE_PASS_BY_REF(CCPoint, _indicatorPosition, IndicatorPosition);
+    CC_SYNTHESIZE_READONLY(CCSprite *, _indicatorSprite, IndicatorSprite);
+    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorNormal, IndicatorColorNormal);
+    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorSelected, IndicatorColorSelected);
 };
 
 NS_CC_END

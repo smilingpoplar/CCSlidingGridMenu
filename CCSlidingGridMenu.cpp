@@ -1,4 +1,5 @@
 #include "CCSlidingGridMenu.h"
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -45,11 +46,12 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
 	setPosition(position);
 	buildGrid(cols, rows, horizontal);
     
-    _showPagesIndicator = true;
-    _pagesIndicatorSize = 6;
-    _pagesIndicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _pagesIndicatorSize * 2);
-    _pagesIndicatorColorNormal = ccc4(150, 150, 150, 255);
-    _pagesIndicatorColorSelected = ccc4(255, 255, 255, 255);
+    _showIndicator = true;
+    _indicatorSize = 6;
+    _indicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _indicatorSize * 2);
+    _indicatorSprite = NULL;
+    _indicatorColorNormal = ccc4(150, 150, 150, 255);
+    _indicatorColorSelected = ccc4(255, 255, 255, 255);
     
 	return true;
 }
@@ -203,41 +205,68 @@ void CCSlidingGridMenu::moveToPage(int page, bool animated) {
     }
 }
 
+static void setColor4B(CCSprite *sprite, const ccColor4B &color) {
+    sprite->setColor(ccc3(color.r, color.g, color.b));
+    sprite->setOpacity(color.a);
+}
+
+static void drawSprite(CCSprite *sprite, const CCPoint &point) {
+    sprite->setPosition(point);
+    sprite->visit();
+}
+
 void CCSlidingGridMenu::visit() {
     CCLayer::visit();
 	
-	if (_showPagesIndicator) {		
+	if (_showIndicator) {
 		// Prepare Points Array
-		float pY = _pagesIndicatorPosition.y;
-		float d = _pagesIndicatorSize * 2; // Distance between points.
-        CCPoint *points = new CCPoint[_pageCount];
+		float distanceBetweenPoints = _indicatorSize * 2;
+        std::vector<CCPoint> points(_pageCount);
 		for (int i = 0; i < _pageCount; ++i) {
-			float pX = _pagesIndicatorPosition.x + d * ( (float)i - 0.5f*(_pageCount-1) );
-			points[i] = ccp(pX, pY);
+			points[i] = ccp(_indicatorPosition.x + distanceBetweenPoints * (i - 0.5f*(_pageCount-1)), _indicatorPosition.y);
 		}
 		
-		// Set GL Values
-        ccGLEnable(CC_GL_BLEND);
-        ccPointSize(_pagesIndicatorSize);
- 		
- 		// Draw Gray Points
-        ccDrawColor4B(_pagesIndicatorColorNormal.r,
-                      _pagesIndicatorColorNormal.g,
-                      _pagesIndicatorColorNormal.b,
-                      _pagesIndicatorColorNormal.a);
-        ccDrawPoints(points, _pageCount);
+        if (_indicatorSprite) {
+            
+            setColor4B(_indicatorSprite, _indicatorColorNormal);
+            for (int i = 0; i < _pageCount; i++) {
+                drawSprite(_indicatorSprite, points[i]);
+            }
+            setColor4B(_indicatorSprite, _indicatorColorSelected);
+            drawSprite(_indicatorSprite, points[_currentPage]);
+            
+        } else {
+            // Set GL Values
+            ccGLEnable(CC_GL_BLEND);
+            ccPointSize(_indicatorSize);
+            
+            // Draw Gray Points
+            ccDrawColor4B(_indicatorColorNormal.r,
+                          _indicatorColorNormal.g,
+                          _indicatorColorNormal.b,
+                          _indicatorColorNormal.a);
+            ccDrawPoints(points.data(), _pageCount);
+            
+            // Draw White Point for Selected Page
+            ccDrawColor4B(_indicatorColorSelected.r,
+                          _indicatorColorSelected.g,
+                          _indicatorColorSelected.b,
+                          _indicatorColorSelected.a);
+            ccDrawPoint(points[_currentPage]);
+            
+            // Restore GL Values
+            ccPointSize(1.0f);
+        }
+    }
+}
+
+void CCSlidingGridMenu::setIndicatorSprite(CCSprite *sprite) {
+    if (_indicatorSprite != sprite) {
+        CC_SAFE_RETAIN(sprite);
+        CC_SAFE_RELEASE(_indicatorSprite);
+        _indicatorSprite = sprite;
         
-        // Draw White Point for Selected Page
-        ccDrawColor4B(_pagesIndicatorColorSelected.r,
-                      _pagesIndicatorColorSelected.g,
-                      _pagesIndicatorColorSelected.b,
-                      _pagesIndicatorColorSelected.a);
-        ccDrawPoint(points[_currentPage]);
-        
-        // Restore GL Values
-        ccPointSize(1.0f);
-        
-        delete[] points;
+        if (sprite) sprite->setScale(_indicatorSize / sprite->getContentSize().width);
     }
 }
 
