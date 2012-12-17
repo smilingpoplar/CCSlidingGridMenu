@@ -202,9 +202,9 @@
 		87A4CEB2167DFF1300DE5312 /* HttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEB1167DFF1300DE5312 /* HttpClient.cpp */; };
 		87A4CEBB167DFF1300DE5312 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEBA167DFF1300DE5312 /* AppDelegate.mm */; };
 		87A4CEBE167DFF1300DE5312 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEBD167DFF1300DE5312 /* HelloWorldScene.cpp */; };
-		87A4CEE1167E09B200DE5312 /* CCSlidingGridMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */; };
 		87A4CEE2167E09B200DE5312 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 87A4CEE0167E09B100DE5312 /* README.md */; };
 		87A4CEEB167E885E00DE5312 /* pages-indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A4CEEA167E885E00DE5312 /* pages-indicator.png */; };
+		87A4CF0B167F249D00DE5312 /* CCSlidingGridMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87A4CF09167F249C00DE5312 /* CCSlidingGridMenu.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -637,10 +637,10 @@
 		87A4CEBA167DFF1300DE5312 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Classes/AppDelegate.mm; sourceTree = "<group>"; };
 		87A4CEBC167DFF1300DE5312 /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		87A4CEBD167DFF1300DE5312 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlidingGridMenu.cpp; sourceTree = SOURCE_ROOT; };
-		87A4CEDF167E09B100DE5312 /* CCSlidingGridMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlidingGridMenu.h; sourceTree = SOURCE_ROOT; };
 		87A4CEE0167E09B100DE5312 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 		87A4CEEA167E885E00DE5312 /* pages-indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pages-indicator.png"; sourceTree = SOURCE_ROOT; };
+		87A4CF09167F249C00DE5312 /* CCSlidingGridMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlidingGridMenu.cpp; sourceTree = SOURCE_ROOT; };
+		87A4CF0A167F249C00DE5312 /* CCSlidingGridMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlidingGridMenu.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -699,8 +699,8 @@
 			isa = PBXGroup;
 			children = (
 				87A4CEE0167E09B100DE5312 /* README.md */,
-				87A4CEDF167E09B100DE5312 /* CCSlidingGridMenu.h */,
-				87A4CEDE167E09B100DE5312 /* CCSlidingGridMenu.cpp */,
+				87A4CF0A167F249C00DE5312 /* CCSlidingGridMenu.h */,
+				87A4CF09167F249C00DE5312 /* CCSlidingGridMenu.cpp */,
 				87A4CC2D167DFF0C00DE5312 /* Resources */,
 				87A4CC45167DFF0D00DE5312 /* ios */,
 				87A4CC4E167DFF0E00DE5312 /* libs */,
@@ -1782,7 +1782,7 @@
 				87A4CEB2167DFF1300DE5312 /* HttpClient.cpp in Sources */,
 				87A4CEBB167DFF1300DE5312 /* AppDelegate.mm in Sources */,
 				87A4CEBE167DFF1300DE5312 /* HelloWorldScene.cpp in Sources */,
-				87A4CEE1167E09B200DE5312 /* CCSlidingGridMenu.cpp in Sources */,
+				87A4CF0B167F249D00DE5312 /* CCSlidingGridMenu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

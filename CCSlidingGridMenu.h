@@ -13,7 +13,9 @@ NS_CC_BEGIN
 
 class CCSlidingGridMenu : public CCLayer {
 public:
-    // previewOffset < 0: pages will be next to each other
+    // previewOffset
+    //  >=0: preview offset of the next/previous page
+    //  < 0: pages will be next to each other
     static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset = -1);
 	void moveToPage(int page, bool animated = true);
     void setIndicatorSprite(CCSprite *sprite);
