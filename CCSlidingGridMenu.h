@@ -19,7 +19,15 @@ public:
     static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset = -1);
 	void moveToPage(int page, bool animated = true);
     void setIndicatorSprite(CCSprite *sprite);
-
+    
+    // pages indicator
+    CC_SYNTHESIZE(bool, _showIndicator, ShowIndicator);
+    CC_SYNTHESIZE(float, _indicatorSize, IndicatorSize);
+    CC_SYNTHESIZE_PASS_BY_REF(CCPoint, _indicatorPosition, IndicatorPosition);
+    CC_SYNTHESIZE_READONLY(CCSprite *, _indicatorSprite, IndicatorSprite);
+    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorNormal, IndicatorColorNormal);
+    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorSelected, IndicatorColorSelected);
+    
 protected:
     bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset);
     virtual void addChild(CCNode *child, int zOrder, int tag);
@@ -52,14 +60,6 @@ protected:
 
 	bool _moving; // Is the grid currently moving?
 	float _moveDistance; // Distance between origin of the touch and current frame.
-    
-    // pages indicator
-    CC_SYNTHESIZE(bool, _showIndicator, ShowIndicator);
-    CC_SYNTHESIZE(float, _indicatorSize, IndicatorSize);
-    CC_SYNTHESIZE_PASS_BY_REF(CCPoint, _indicatorPosition, IndicatorPosition);
-    CC_SYNTHESIZE_READONLY(CCSprite *, _indicatorSprite, IndicatorSprite);
-    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorNormal, IndicatorColorNormal);
-    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorSelected, IndicatorColorSelected);
 };
 
 NS_CC_END
