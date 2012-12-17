@@ -131,13 +131,13 @@ bool CCSlidingGridMenu::ccTouchBegan(CCTouch* touch, CCEvent* event) {
 }
 
 void CCSlidingGridMenu::ccTouchMoved(CCTouch* touch, CCEvent* event) {
-    _moving = true;
 	// Calculate the current touch point during the move.
     _touchStop = touch->getLocation();
     // Distance between the origin of the touch and current touch point.
 	_moveDistance = _horizontal ? _touchStop.x - _touchOrigin.x : _touchStop.y - _touchOrigin.y;
     // Set our position.
 	setPosition(getCurrentPagePosition(_moveDistance));
+    _moving = true;
 }
 
 // Touch has ended. Process sliding of menu or press of menu item.

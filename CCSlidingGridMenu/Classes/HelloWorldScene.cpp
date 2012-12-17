@@ -28,6 +28,7 @@ bool HelloWorld::init()
         CCSprite *sprite = CCSprite::create("Icon-72.png");
         CCMenuItemSprite *item = CCMenuItemSprite::create(sprite, sprite, this, menu_selector(HelloWorld::itemCallback));
         items->addObject(item);
+        item->setTag(i);
     }
     
     CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, CCSizeMake(60, 50), ccp(240, 160), true, 120);
