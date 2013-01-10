@@ -138,39 +138,46 @@ void CCSlidingGridMenu::ccTouchMoved(CCTouch* touch, CCEvent* event) {
     // Set our position.
 	setPosition(getCurrentPagePosition(_moveDistance));
     _moving = true;
+    if(_selectedItem) {
+        _selectedItem->unselected();
+        _selectedItem = NULL;
+    }
 }
 
 // Touch has ended. Process sliding of menu or press of menu item.
 void CCSlidingGridMenu::ccTouchEnded(CCTouch* touch, CCEvent* event) {
-    // User has been sliding the menu.
-	if(_moving) {
-		_moving = false;
-        // Do we have multiple pages?
-        if (_pageCount > 1 && abs(_moveDistance) > _pageOffset * 0.33) {
-            // Are we going forward or backward?
-            bool forward = _horizontal ? _moveDistance < 0 : _moveDistance > 0;
-            
-            // Do we have a page available?
-            if(forward && (_currentPage < _pageCount - 1)) {
-                // Increment currently active page.
-                _currentPage++;
-            } else if (!forward && (_currentPage > 0)) {
-                // Decrement currently active page.
-                _currentPage--;
-            }
-        }
-        // Start sliding towards the current page.
-        moveToCurrentPage();
-    } else {
-        // User wasn't sliding menu and simply tapped the screen. Activate the menu item.
+    // User wasn't sliding menu and simply tapped the screen. Activate the menu item.
+    if (!_moving) {
 		if(_selectedItem) {
             _selectedItem->unselected();
             _selectedItem->activate();
+            _selectedItem = NULL;
 		}
-	}
+        // Back to waiting state.
+        _state = kCCMenuStateWaiting;
+        return;
+    }
     
-	// Back to waiting state.
-	_state = kCCMenuStateWaiting;
+    // User has been sliding the menu.
+    _moving = false;
+    // Do we have multiple pages?
+    if (_pageCount > 1 && abs(_moveDistance) > _pageOffset * 0.33) {
+        // Are we going forward or backward?
+        bool forward = _horizontal ? _moveDistance < 0 : _moveDistance > 0;
+        
+        // Do we have a page available?
+        if(forward && (_currentPage < _pageCount - 1)) {
+            // Increment currently active page.
+            _currentPage++;
+        } else if (!forward && (_currentPage > 0)) {
+            // Decrement currently active page.
+            _currentPage--;
+        }
+    }
+    // Start sliding towards the current page.
+    moveToCurrentPage();
+    // Back to waiting state.
+    _state = kCCMenuStateWaiting;
 }
 
 void CCSlidingGridMenu::ccTouchCancelled(CCTouch* touch, CCEvent* event) {
