@@ -45,7 +45,7 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
 	setPosition(position);
 	buildGrid(cols, rows, horizontal);
     
-    _showIndicator = true;
+    _showIndicator = false;
     _indicatorSize = 6;
     _indicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _indicatorSize * 2);
     _indicatorSprite = NULL;

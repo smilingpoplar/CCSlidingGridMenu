@@ -14,4 +14,5 @@ port Brandon's [SlidingMenuGrid](http://brandonreynolds.com/blog/2011/01/09/coco
     
     CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, CCSizeMake(60, 50), ccp(240, 160), true, 120);
     addChild(gridMenu);
+    gridMenu->setShowIndicator(true);
     gridMenu->setIndicatorSprite(CCSprite::create("pages-indicator.png"));
