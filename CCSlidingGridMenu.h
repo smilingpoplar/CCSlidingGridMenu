@@ -1,10 +1,10 @@
 #ifndef __SLIDING_MENU_GRID_H
 #define __SLIDING_MENU_GRID_H
 /*
- * port Brandon‘s SlidingMenuGrid to cocos2d-x v2.x
- * (http://brandonreynolds.com/blog/2011/01/09/cocos2d-sliding-menu-grid/ )
+ * a sliding grid menu like Angry Birds
  *
- * 2012-12-16 YangLe - add pages indicator
+ * 2011-01-09 Brandon - http://brandonreynolds.com/blog/2011/01/09/cocos2d-sliding-menu-grid/
+ * 2012-12-16 YangLe  - fix bugs, add pages indicator
  */
 
 #include "cocos2d.h"
