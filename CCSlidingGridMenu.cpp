@@ -3,9 +3,10 @@
 
 NS_CC_BEGIN
 
-CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset) {
+CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows, const CCSize &itemSize,
+                                             bool horizontal, const CCPoint &position, float previewLength) {
 	CCSlidingGridMenu *slidingMenu = new CCSlidingGridMenu();
-	if (slidingMenu && slidingMenu->init(items, cols, rows, itemSize, position, horizontal, previewOffset)) {
+	if (slidingMenu && slidingMenu->init(items, cols, rows, itemSize, horizontal, position, previewLength)) {
 		slidingMenu->autorelease();
 		return slidingMenu;
 	}
@@ -13,7 +14,8 @@ CCSlidingGridMenu* CCSlidingGridMenu::create(CCArray *items, int cols, int rows,
 	return NULL;
 }
 
-bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset) {
+bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
+                             const CCPoint &position, float previewLength) {
 	if(!CCLayer::init()) return false;
     
 	setTouchEnabled(true);
@@ -36,11 +38,11 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
     CCSize winSize(CCDirector::sharedDirector()->getWinSize());
     float winLength = horizontal ? winSize.width : winSize.height;
     CCSize menuSize(_itemSize.width * cols, _itemSize.height * rows);
-    if (previewOffset < 0) {
+    if (previewLength < 0) {
         float menuLength = horizontal ? menuSize.width : menuSize.height;
-        previewOffset = winLength - menuLength;
+        previewLength = winLength - menuLength;
     }
-    _pageOffset = winLength - previewOffset;
+    _pageOffset = winLength - previewLength;
     
 	setPosition(position);
 	buildGrid(cols, rows, horizontal);
@@ -119,6 +121,9 @@ bool CCSlidingGridMenu::ccTouchBegan(CCTouch* touch, CCEvent* event) {
     
     // If we weren't in "waiting" state bail out.
 	if (_state != kCCMenuStateWaiting) return false;
+    
+    // If we are not in the specific touch area
+    if (!_touchArea.equals(CCRectZero) &&!_touchArea.containsPoint(_touchOrigin)) return false;
 	
 	// Activate the menu item if we are touching one.
 	_selectedItem = getItemForTouch(touch);

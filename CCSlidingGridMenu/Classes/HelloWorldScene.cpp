@@ -31,10 +31,11 @@ bool HelloWorld::init()
         item->setTag(i);
     }
     
-    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, CCSizeMake(60, 50), ccp(240, 160), true, 120);
+    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, CCSizeMake(60, 50), true, ccp(240, 160), 120);
     addChild(gridMenu);
     gridMenu->setShowIndicator(true);
     gridMenu->setIndicatorSprite(CCSprite::create("pages-indicator.png"));
+    gridMenu->setTouchArea(CCRectMake(160, 80, 160, 160));
     
     return true;
 }

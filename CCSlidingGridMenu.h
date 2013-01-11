@@ -4,7 +4,7 @@
  * a sliding grid menu like Angry Birds
  *
  * 2011-01-09 Brandon - http://brandonreynolds.com/blog/2011/01/09/cocos2d-sliding-menu-grid/
- * 2012-12-16 YangLe  - fix bugs, add pages indicator
+ * 2012-12-16 YangLe  - fix bugs & add features: pages indicator, touch area
  */
 
 #include "cocos2d.h"
@@ -13,10 +13,11 @@ NS_CC_BEGIN
 
 class CCSlidingGridMenu : public CCLayer {
 public:
-    // previewOffset
-    //  >=0: preview offset of the next/previous page
+    // previewLength
+    //  >=0: next/previous page's preview window length
     //  < 0: pages will be next to each other
-    static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset = -1);
+    static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
+                                     const CCPoint &position, float previewLength = -1);
 	void moveToPage(int page, bool animated = true);
     void setIndicatorSprite(CCSprite *sprite);
     
@@ -28,8 +29,11 @@ public:
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorNormal, IndicatorColorNormal);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorSelected, IndicatorColorSelected);
     
+    // touch area
+    CC_SYNTHESIZE(CCRect, _touchArea, TouchArea);
 protected:
-    bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, const CCPoint &position, bool horizontal, float previewOffset);
+    bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
+              const CCPoint &position, float previewLength);
     virtual void addChild(CCNode *child);
 	void buildGrid(int cols, int rows, bool horizontal);
 	void moveToCurrentPage(bool animated = true);

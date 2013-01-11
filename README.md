@@ -1,6 +1,8 @@
 # CCSlidingGridMenu
 
-port Brandon's [SlidingMenuGrid](http://brandonreynolds.com/blog/2011/01/09/cocos2d-sliding-menu-grid/) & add pages indicator
+port Brandon's [SlidingMenuGrid](http://brandonreynolds.com/blog/2011/01/09/cocos2d-sliding-menu-grid/) 
+
+fix bugs & add features: pages indicator, touch area
 
 [MIT Licence](http://opensource.org/licenses/mit-license.php), for cocos2dx-2.x
 
