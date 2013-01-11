@@ -11,6 +11,10 @@
 
 NS_CC_BEGIN
 
+typedef struct {
+    float top, left, bottom, right;
+} CCEdgeInsets;
+
 class CCSlidingGridMenu : public CCLayer {
 public:
     // previewLength
@@ -19,18 +23,19 @@ public:
     static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
                                      const CCPoint &position, float previewLength = -1);
 	void moveToPage(int page, bool animated = true);
-    void setIndicatorSprite(CCSprite *sprite);
     
     // pages indicator
     CC_SYNTHESIZE(bool, _showIndicator, ShowIndicator);
     CC_SYNTHESIZE(float, _indicatorSize, IndicatorSize);
     CC_SYNTHESIZE_PASS_BY_REF(CCPoint, _indicatorPosition, IndicatorPosition);
     CC_SYNTHESIZE_READONLY(CCSprite *, _indicatorSprite, IndicatorSprite);
+    void setIndicatorSprite(CCSprite *sprite);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorNormal, IndicatorColorNormal);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, _indicatorColorSelected, IndicatorColorSelected);
     
     // touch area
     CC_SYNTHESIZE(CCRect, _touchArea, TouchArea);
+    void setTouchAreaWithCapInsets(const CCEdgeInsets &capInsets);
 protected:
     bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
               const CCPoint &position, float previewLength);

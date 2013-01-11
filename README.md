@@ -14,7 +14,9 @@ fix bugs & add features: pages indicator, touch area
         items->addObject(item);
     }
     
-    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, CCSizeMake(60, 50), ccp(240, 160), true, 120);
+    CCSlidingGridMenu *gridMenu = CCSlidingGridMenu::create(items, 5, 4, CCSizeMake(60, 50), true, ccp(240, 160), 120);
     addChild(gridMenu);
     gridMenu->setShowIndicator(true);
     gridMenu->setIndicatorSprite(CCSprite::create("pages-indicator.png"));
+    CCEdgeInsets capsInset = {50, 100, 50, 100};
+    gridMenu->setTouchAreaWithCapInsets(capsInset);

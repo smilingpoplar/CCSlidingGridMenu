@@ -281,4 +281,12 @@ void CCSlidingGridMenu::setIndicatorSprite(CCSprite *sprite) {
     }
 }
 
+void CCSlidingGridMenu::setTouchAreaWithCapInsets(const CCEdgeInsets &capInsets) {
+    const CCSize &winSize = CCDirector::sharedDirector()->getWinSize();
+    _touchArea =  CCRectMake(capInsets.left,
+                             capInsets.bottom,
+                             winSize.width - capInsets.left - capInsets.right,
+                             winSize.height - capInsets.bottom - capInsets.top);
+}
+
 NS_CC_END

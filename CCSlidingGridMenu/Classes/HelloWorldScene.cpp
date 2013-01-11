@@ -35,7 +35,8 @@ bool HelloWorld::init()
     addChild(gridMenu);
     gridMenu->setShowIndicator(true);
     gridMenu->setIndicatorSprite(CCSprite::create("pages-indicator.png"));
-    gridMenu->setTouchArea(CCRectMake(160, 80, 160, 160));
+    CCEdgeInsets capsInset = {50, 100, 50, 100};
+    gridMenu->setTouchAreaWithCapInsets(capsInset);
     
     return true;
 }
