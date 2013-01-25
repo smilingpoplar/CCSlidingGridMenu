@@ -49,7 +49,7 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
     
     _showIndicator = false;
     _indicatorSize = 6;
-    _indicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _indicatorSize * 2);
+    _indicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _indicatorSize * 3);
     _indicatorSprite = NULL;
     _indicatorColorNormal = ccc4(150, 150, 150, 255);
     _indicatorColorSelected = ccc4(255, 255, 255, 255);
