@@ -11,6 +11,12 @@
 
 NS_CC_BEGIN
 
+class CCSlidingGridMenu;
+class CCSlidingGridMenuDelegate {
+public:
+    virtual void slidingGridMenuDidMoveToPage(CCSlidingGridMenu *menu, int page) = 0;
+};
+
 typedef struct {
     float top, left, bottom, right;
 } CCEdgeInsets;
@@ -23,6 +29,9 @@ public:
     static CCSlidingGridMenu* create(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
                                      const CCPoint &position, float previewLength = -1);
 	void moveToPage(int page, bool animated = true);
+    
+    // delegate
+    CC_SYNTHESIZE(CCSlidingGridMenuDelegate *, _delegate, Delegate);
     
     // pages indicator
     CC_SYNTHESIZE(bool, _showIndicator, ShowIndicator);
@@ -38,10 +47,12 @@ public:
     void setTouchAreaWithCapInsets(const CCEdgeInsets &capInsets);
 protected:
     bool init(CCArray *items, int cols, int rows, const CCSize &itemSize, bool horizontal,
+              
               const CCPoint &position, float previewLength);
     virtual void addChild(CCNode *child);
 	void buildGrid(int cols, int rows, bool horizontal);
 	void moveToCurrentPage(bool animated = true);
+    void didMoveToCurrentPage();
     
     virtual void registerWithTouchDispatcher();
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);

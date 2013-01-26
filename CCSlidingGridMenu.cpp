@@ -47,6 +47,8 @@ bool CCSlidingGridMenu::init(CCArray *items, int cols, int rows, const CCSize &i
 	setPosition(position);
 	buildGrid(cols, rows, horizontal);
     
+    _delegate = NULL;
+    
     _showIndicator = false;
     _indicatorSize = 6;
     _indicatorPosition = ccp(position.x, position.y - menuSize.height * 0.5 - _indicatorSize * 3);
@@ -196,9 +198,18 @@ void CCSlidingGridMenu::ccTouchCancelled(CCTouch* touch, CCEvent* event) {
 void CCSlidingGridMenu::moveToCurrentPage(bool animated) {
     CCPoint currentPagePosition = getCurrentPagePosition();
     if (animated) {
-        runAction(CCEaseBounce::create(CCMoveTo::create(0.3f, currentPagePosition)));
+        CCFiniteTimeAction *action = CCEaseBounce::create(CCMoveTo::create(0.3f, currentPagePosition));
+        action = CCSequence::create(action, CCCallFunc::create(this, callfunc_selector(CCSlidingGridMenu::didMoveToCurrentPage)), NULL);
+        runAction(action);
     } else {
         setPosition(currentPagePosition);
+        didMoveToCurrentPage();
+    }
+}
+
+void CCSlidingGridMenu::didMoveToCurrentPage() {
+    if (dynamic_cast<CCSlidingGridMenuDelegate *>(_delegate)) {
+        _delegate->slidingGridMenuDidMoveToPage(this, _currentPage);
     }
 }
 
