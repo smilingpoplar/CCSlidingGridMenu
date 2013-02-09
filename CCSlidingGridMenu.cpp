@@ -220,7 +220,7 @@ CCPoint CCSlidingGridMenu::getCurrentPagePosition(float offset) {
 }
 
 void CCSlidingGridMenu::moveToPage(int page, bool animated) {
-    CCAssert(0 <= page && page < _pageCount, "page out of bounds");
+    page = MIN(MAX(0, page), _pageCount - 1);
     if (page != _currentPage) {
         _currentPage = page;
         moveToCurrentPage(animated);
