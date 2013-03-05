@@ -249,14 +249,13 @@ void CCSlidingGridMenu::visit() {
 		}
 		
         if (_indicatorSprite) {
-            
+            _indicatorSprite->setScale(_indicatorSize / _indicatorSprite->getContentSize().width);
             setColor4B(_indicatorSprite, _indicatorColorNormal);
             for (int i = 0; i < _pageCount; i++) {
                 drawSprite(_indicatorSprite, points[i]);
             }
             setColor4B(_indicatorSprite, _indicatorColorSelected);
             drawSprite(_indicatorSprite, points[_currentPage]);
-            
         } else {
             // Set GL Values
             ccGLEnable(CC_GL_BLEND);
