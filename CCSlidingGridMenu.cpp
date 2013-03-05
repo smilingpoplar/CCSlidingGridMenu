@@ -282,13 +282,17 @@ void CCSlidingGridMenu::visit() {
     }
 }
 
+void CCSlidingGridMenu::setIndicatorSize(float indicatorSize) {
+    _indicatorSize = indicatorSize;
+    if (_indicatorSprite) _indicatorSprite->setScale(_indicatorSize / _indicatorSprite->getContentSize().width);
+}
+
 void CCSlidingGridMenu::setIndicatorSprite(CCSprite *sprite) {
     if (_indicatorSprite != sprite) {
         CC_SAFE_RETAIN(sprite);
         CC_SAFE_RELEASE(_indicatorSprite);
         _indicatorSprite = sprite;
-        
-        if (sprite) sprite->setScale(_indicatorSize / sprite->getContentSize().width);
+        setIndicatorSize(_indicatorSize);
     }
 }
 

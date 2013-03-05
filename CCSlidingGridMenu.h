@@ -35,7 +35,8 @@ public:
     
     // pages indicator
     CC_SYNTHESIZE(bool, _showIndicator, ShowIndicator);
-    CC_SYNTHESIZE(float, _indicatorSize, IndicatorSize);
+    CC_SYNTHESIZE_READONLY(float, _indicatorSize, IndicatorSize);
+    void setIndicatorSize(float indicatorSize);
     CC_SYNTHESIZE_PASS_BY_REF(CCPoint, _indicatorPosition, IndicatorPosition);
     CC_SYNTHESIZE_READONLY(CCSprite *, _indicatorSprite, IndicatorSprite);
     void setIndicatorSprite(CCSprite *sprite);
